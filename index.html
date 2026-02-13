@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="mn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erhes ❤️ Nandia Story</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;500;700&family=Great+Vibes&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-soft: #fff5f7;
+            --primary-rose: #f48fb1;
+            --nav-bg: #ffe4e8;
+            --text-main: #5d4037;
+        }
+
+        body {
+            background-color: var(--bg-soft);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        .cursive {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        .top-banner {
+            background-color: var(--bg-soft);
+            padding: 50px 20px;
+            position: relative;
+            border-bottom: 1px solid #fce4ec;
+            background-image: radial-gradient(#ffe4e8 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+        }
+
+        .nav-bar {
+            background-color: #f48fb1;
+            padding: 14px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+        }
+
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #d81b60;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-btn.active {
+            background-color: #f06292;
+            color: white;
+            box-shadow: 0 4px 10px rgba(240, 98, 146, 0.3);
+            transform: scale(1.05);
+        }
+
+        .card {
+            background: white;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            border: 1px solid #fff0f3;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(244, 143, 177, 0.15);
+        }
+
+        .media-box {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #fce4ec;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #live-days {
+            text-shadow: 2px 2px 10px rgba(240, 98, 146, 0.2);
+            color: #ad1457;
+        }
+
+        .heart-icon {
+            position: absolute;
+            color: #f06292;
+            opacity: 0.6;
+            filter: drop-shadow(0 0 5px rgba(240, 98, 146, 0.3));
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #c2185b;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin-slow {
+            animation: spin-slow 5s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="music-modal" class="fixed inset-0 bg-black/70 z-[2000] flex items-center justify-center backdrop-blur-md">
+        <div class="bg-white p-10 rounded-3xl text-center shadow-2xl animate__animated animate__zoomIn max-w-sm mx-4">
+            <div class="text-6xl mb-4">🎶</div>
+            <h3 class="cursive text-4xl text-pink-600 mb-4">Хоёулангых нь хайрын түүх</h3>
+            <button onclick="startMusic()"
+                class="bg-pink-500 hover:bg-pink-600 text-white px-12 py-3 rounded-full font-bold transition-all shadow-lg hover:scale-105">Нээх</button>
+        </div>
+    </div>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="./images/duu/duu.mp3" type="audio/mpeg">
+        <source src="./images/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="fixed bottom-6 right-6 z-[100]">
+        <button onclick="toggleMusic()" id="music-btn"
+            class="bg-white/90 p-4 rounded-full shadow-2xl border border-pink-100 text-3xl hover:scale-110 transition-all">
+            🔇
+        </button>
+    </div>
+
+    <div id="lightbox"
+        class="fixed inset-0 hidden bg-black/90 z-[1000] flex items-center justify-center p-4 cursor-pointer"
+        onclick="this.classList.add('hidden')">
+        <img id="lightbox-img" class="max-w-full max-h-[85vh] rounded-lg border-4 border-white shadow-2xl">
+    </div>
+
+    <header class="top-banner">
+        <div class="max-w-6xl mx-auto flex flex-col items-center text-center">
+            <h1 class="text-4xl md:text-6xl text-pink-700 cursive animate__animated animate__fadeInDown">
+                Эрхэс ❤️ Нандиа хоёрын хайрын түүх
+            </h1>
+            <div class="flex items-center gap-4 mt-6 animate__animated animate__zoomIn">
+                <span id="live-days" class="text-8xl md:text-9xl font-bold tracking-tighter">0</span>
+                <span class="text-4xl md:text-5xl text-pink-400 cursive">өдөр</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="nav-bar">
+        <button onclick="switchTab('home')" id="btn-home" class="nav-btn active">Бидний Мөч</button>
+        <button onclick="switchTab('photos')" id="btn-photos" class="nav-btn">Зураг</button>
+        <button onclick="switchTab('letter')" id="btn-letter" class="nav-btn">Хэлэх үгс</button>
+    </nav>
+
+    <main class="max-w-5xl mx-auto p-8">
+        <section id="home-section" class="animate__animated animate__fadeIn">
+            <h2 class="section-title cursive">Тэмдэглэлт Мөчүүд ❤️</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8">
+
+                <div class="card">
+                    <div class="media-box">
+                        <video controls>
+                            <source src="./images/firstdate.mp4">
+                        </video>
+                    </div>
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Анхны болзоо</p>
+                </div>
+
+                <div class="card">
+                    <div class="media-box">
+                        <video controls>
+                            <source src="./images/bestdate.mp4">
+                        </video>
+                    </div>
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Хамгийн дурсамжтай өдөр</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/8.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Бидний инээмсэглэл</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/13.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Aмьдралын эхлэл</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/1.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Хамтдаа байхдаа хамгийн үзэсгэлэнтэй
+                    </p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/3.jpeg">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Миний ертөнц</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/5.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Үргэлж хамтдаа...</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/7.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Дурсамж бүхэн үнэ цэнэтэй</p>
+                </div>
+
+                <div class="card" onclick="openLightbox(this)">
+                    <img src="./images/9.jpeg" class="media-box">
+                    <p class="text-center mt-3 text-sm font-medium text-pink-600">Хайртай шүү ❤️</p>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="photos-section" class="hidden animate__animated animate__fadeIn">
+            <h2 class="section-title cursive">Дурсамжтай Мөчүүд ❤️</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/2.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/4.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/6.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/10.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/11.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/12.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/14.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/15.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/16.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/17.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/18.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/25.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/24.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/21.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/22.jpeg" class="media-box">
+                </div>
+                <div class="card cursor-pointer" onclick="openLightbox(this)">
+                    <img src="./images/23.jpeg" class="media-box">
+                </div>
+            </div>
+        </section>
+
+        <section id="letter-section" class="hidden animate__animated animate__fadeIn">
+            <h2 class="section-title cursive">Сэтгэлийн үг ❤️</h2>
+
+            <div class="flex flex-col gap-6 max-w-2xl mx-auto">
+
+                <div
+                    class="bg-white p-12 rounded-3xl shadow-sm italic leading-loose text-lg text-gray-700 border-l-8 border-pink-300 relative">
+                    <span class="absolute top-4 left-4 text-4xl text-pink-100 font-serif">"</span>
+                    Чи минь надад ирсэн бурхны бэлэг юм шүү. Чамдаа жөндөө их хайртай шүү ❤️
+                </div>
+
+                <div
+                    class="bg-white p-12 rounded-3xl shadow-sm italic leading-loose text-lg text-gray-700 border-l-8 border-pink-300 relative">
+                    <span class="absolute top-4 left-4 text-4xl text-pink-100 font-serif">"</span>
+                    Хамтдаа багагүй хугацааг туулсан ч энэ бол бидний ирээдүйн амьдралын дөнгөж эхлэл юм жүү. Намайг үргэлж ойлгож, бурууг минь засаж, зөвийг минь урамшуулж ирсэнд баярлалаа. Хайртай шүү. ❤️
+                </div>
+
+                <div
+                    class="bg-white p-12 rounded-3xl shadow-sm italic leading-loose text-lg text-gray-700 border-l-8 border-pink-300 relative">
+                    <span class="absolute top-4 left-4 text-4xl text-pink-100 font-serif">"</span>
+                    Өнгөрсөн хугацаанд маргалдах үе байсан ч чамтайгаа учирсандаа нэг ч удаа харамсаж байгаагүй шүү. Чи байгаа газар л миний гэр байдаг. Чи л байвал бусад нь надад хамаагүй ээ. Чи бол миний бүх зүйл, миний амь амьдрал юм шүү. Хайртай шүү үншиийй ❤️
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const START_DATE = "2024-09-22";
+
+        // Элементүүдийг script-ийн дээр зарлаж өгөх
+        const music = document.getElementById('bg-music');
+        const musicModal = document.getElementById('music-modal');
+        const musicBtn = document.getElementById('music-btn');
+
+        function updateCounter() {
+            const now = new Date();
+            const start = new Date(START_DATE);
+            const diff = now - start;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+            const daysElement = document.getElementById('live-days');
+            if (daysElement) {
+                daysElement.innerText = days;
+            }
+        }
+
+        function startMusic() {
+            musicModal.style.display = 'none';
+            music.play().then(() => {
+                musicBtn.innerText = "🎵";
+                musicBtn.classList.add('animate-spin-slow');
+            }).catch(error => {
+                console.log("Play failed:", error);
+                musicBtn.innerText = "🔇";
+            });
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.innerText = "🎵";
+                musicBtn.classList.add('animate-spin-slow');
+            } else {
+                music.pause();
+                musicBtn.innerText = "🔇";
+                musicBtn.classList.remove('animate-spin-slow');
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('main section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(tab + '-section').classList.remove('hidden');
+            document.getElementById('btn-' + tab).classList.add('active');
+        }
+
+        function openLightbox(element) {
+            const imgSrc = element.querySelector('img').src;
+            const lightbox = document.getElementById('lightbox');
+            document.getElementById('lightbox-img').src = imgSrc;
+            lightbox.classList.remove('hidden');
+        }
+
+        // Хуудас ачаалагдаж дууссаны дараа функцийг дуудах
+        window.onload = function () {
+            updateCounter();
+            setInterval(updateCounter, 1000 * 60 * 60);
+        };
+    </script>
+</body>
+
+</html>
